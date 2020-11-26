@@ -29,7 +29,7 @@ public class MainMenuController {
             stage.setTitle("Main Menu");
             stage.setScene(new Scene(root, 600, 600));
             stage.setResizable(false);
-            stage.getIcons().add(new Image("/icon.png"));
+            stage.getIcons().add(new Image("/Gold Miner Logo.png"));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
 		}
