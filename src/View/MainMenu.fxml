@@ -13,7 +13,7 @@
             <Image url="@../Images/Gold%20Miner%20Logo.png" />
          </image>
       </ImageView>
-      <Button layoutX="73.0" layoutY="275.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="141.0" style="-fx-background-color: E6C343; -fx-background-radius: 300;" text="Start">
+      <Button layoutX="73.0" layoutY="275.0" mnemonicParsing="false" onAction="#OpenStart" prefHeight="42.0" prefWidth="141.0" style="-fx-background-color: E6C343; -fx-background-radius: 300;" text="Start">
          <font>
             <Font name="Arial Black" size="19.0" />
          </font>

@@ -24,7 +24,39 @@ public class MainMenuController {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("view/SettingsMenu.fxml"));
             javafx.stage.Stage stage = new Stage();
             stage.setTitle("Settings");
-            stage.setScene(new Scene(root, 600, 600));
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+            stage.show();
+
+            close(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void OpenStart(ActionEvent event) {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridSize.fxml"));
+            javafx.stage.Stage stage = new Stage();
+            stage.setTitle("Enter Grid Size");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+            stage.show();
+
+            close(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void OpenGridMenu(ActionEvent event) {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridMenu.fxml"));
+            javafx.stage.Stage stage = new Stage();
+            stage.setTitle("Grid Menu");
+            stage.setScene(new Scene(root, 600, 400));
             stage.setResizable(false);
             stage.show();
 
