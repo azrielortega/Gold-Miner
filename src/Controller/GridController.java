@@ -128,7 +128,7 @@ public class GridController {
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridMenu.fxml"));
                 javafx.stage.Stage stage = new Stage();
                 stage.setTitle("Grid Menu");
-                stage.setScene(new Scene(root, 600, 400));
+                stage.setScene(new Scene(root, 800, 700));
                 stage.setResizable(false);
                 stage.show();
                 close(event);
@@ -136,6 +136,10 @@ public class GridController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void StartGame(){
+
     }
 
     public void close(ActionEvent event) {
