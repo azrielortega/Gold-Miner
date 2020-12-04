@@ -55,7 +55,6 @@ public class MainMenuController {
     }
 
 
-
     public void close(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

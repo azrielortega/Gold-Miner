@@ -17,6 +17,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.TextField;
+
 import java.io.IOException;
 
 public class GridController {
@@ -24,7 +25,7 @@ public class GridController {
     @FXML
     private TextField gridnum;
     @FXML
-    private Pane gPane =  new Pane();
+    private Pane gPane = new Pane();
     @FXML
     private Button PitButton;
     @FXML
@@ -35,9 +36,10 @@ public class GridController {
     private static int gridNumber;
     private static int resetClick = 0;
     private static int pitClick = 0;
+    private static int removeClick = 0;
     private static int goldClick = 0;
     private static int beaconClick = 0;
-    private static Rectangle [][] rec;
+    private static Rectangle[][] rec;
     private static Image image = new Image("/Images/pit.png");
     private static ImagePattern ipPit = new ImagePattern(image);
     private static Image pGold = new Image("/Images/gold.png");
@@ -46,42 +48,45 @@ public class GridController {
     private static ImagePattern ipBeacon = new ImagePattern(pBeacon);
     private static Image pDirt = new Image("/Images/dirt.png");
     private static ImagePattern ipDirt = new ImagePattern(pDirt);
+    private static Image pMiner = new Image("/Images/miner.png");
+    private static ImagePattern ipMiner = new ImagePattern(pMiner);
 
-
-
-    public void initialize(){
+    public void initialize() {
         int gridsize = 16; // INITIALIZATION
         gridsize = gridNumber;
         int squareSize = 35;
-        if(gridNumber>34){ squareSize = 20;}
-        int panesize = squareSize*gridsize;
-        gPane.setPrefSize(panesize,panesize);
-        rec = new Rectangle [gridsize][gridsize];
-        for(int i=0; i<gridsize; i++){
-            for(int j=0; j<gridsize; j++){
+        if (gridNumber > 34) {
+            squareSize = 20;
+        }
+        int panesize = squareSize * gridsize;
+        gPane.setPrefSize(panesize, panesize);
+        rec = new Rectangle[gridsize][gridsize];
+        for (int i = 0; i < gridsize; i++) {
+            for (int j = 0; j < gridsize; j++) {
                 rec[i][j] = new Rectangle();
                 rec[i][j].setX(i * squareSize);
                 rec[i][j].setY(j * squareSize);
                 rec[i][j].setWidth(squareSize);
                 rec[i][j].setHeight(squareSize);
-                rec[i][j].setFill(null);
                 rec[i][j].setStroke(Color.rgb(77, 58, 3));
                 rec[i][j].setFill(ipDirt);
-              gPane.getChildren().add(rec[i][j]);
+                gPane.getChildren().add(rec[i][j]);
             }
+            rec[0][0].setFill(ipMiner);
         }
     }
 
-    public void clickPit(){
-        resetClick=1;
+    public void clickPit() {
+        resetClick = 1;
         pitClick = 1;
 
     }
-    public void clickSelect(){
-        resetClick= 0;
-        pitClick =0;
-        goldClick=0;
-        beaconClick=0;
+
+    public void clickSelect() {
+        resetClick = 0;
+        pitClick = 0;
+        goldClick = 0;
+        beaconClick = 0;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
         alert.setTitle("Confirmation");
@@ -90,39 +95,51 @@ public class GridController {
     }
 
 
-    public void clickGold(){
-        resetClick=1;
-        goldClick=1;
+    public void clickGold() {
+        resetClick = 1;
+        goldClick = 1;
     }
-    public void clickBeacon(){
-        resetClick=1;
-        beaconClick =1;
+
+    public void clickBeacon() {
+        resetClick = 1;
+        beaconClick = 1;
+    }
+
+    public void clickRemove() {
+        resetClick = 1;
+        removeClick = 1;
     }
 
 
-    public void handle(MouseEvent me){
+    public void handle(MouseEvent me) {
         double posX = me.getX();
         double posY = me.getY();
         int width = 35;
-        int colX  = (int) (posX/width);
-        int colY = (int) (posY/width);
-        if (pitClick == 1 && goldClick != 1 && beaconClick != 1 && resetClick !=0){ // PIT
-            rec[colX][colY].setFill(ipPit); }
-        if (beaconClick != 1 && pitClick != 1 && goldClick == 1 && resetClick !=0){ // GOLD
-            rec[colX][colY].setFill(ipGold);}
-        if (goldClick != 1 && pitClick != 1 && beaconClick == 1 && resetClick !=0){ //BEACON
-            rec[colX][colY].setFill(ipBeacon);}
+        int colX = (int) (posX / width);
+        int colY = (int) (posY / width);
+        if (pitClick == 1 && goldClick != 1 && beaconClick != 1 && resetClick != 0) { // PIT
+            rec[colX][colY].setFill(ipPit);
+        }
+        if (beaconClick != 1 && pitClick != 1 && goldClick == 1 && resetClick != 0) { // GOLD
+            rec[colX][colY].setFill(ipGold);
+        }
+        if (goldClick != 1 && pitClick != 1 && beaconClick == 1 && resetClick != 0) { //BEACON
+            rec[colX][colY].setFill(ipBeacon);
+        }
+        if (goldClick != 1 && pitClick != 1 && beaconClick != 1 && removeClick == 1 && resetClick != 0) { //REMOVE
+            rec[colX][colY].setFill(ipDirt);
+        }
     }
 
     public void OpenGridMenu(ActionEvent event) {
         gridNumber = Integer.parseInt(gridnum.getText());
-        if (gridNumber == 0 || gridNumber >64 ){
+        if (gridNumber == 0 || gridNumber > 64) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(null);
             alert.setTitle("Warning");
             alert.setContentText("Enter the values 1 to 64 ONLY!");
-            alert.showAndWait(); }
-        else {
+            alert.showAndWait();
+        } else {
             Parent root;
             try {
                 root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridMenu.fxml"));
@@ -138,7 +155,7 @@ public class GridController {
         }
     }
 
-    public void StartGame(){
+    public void StartGame() {
 
     }
 
