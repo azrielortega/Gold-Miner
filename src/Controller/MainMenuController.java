@@ -18,6 +18,10 @@ import java.io.IOException;
 
 public class MainMenuController {
 
+    @FXML
+    private TextField gridNum;
+
+
     public void OpenSettings(ActionEvent event) {
         Parent root;
         try {
@@ -50,21 +54,7 @@ public class MainMenuController {
         }
     }
 
-    public void OpenGridMenu(ActionEvent event) {
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridMenu.fxml"));
-            javafx.stage.Stage stage = new Stage();
-            stage.setTitle("Grid Menu");
-            stage.setScene(new Scene(root, 600, 400));
-            stage.setResizable(false);
-            stage.show();
 
-            close(event);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void close(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
