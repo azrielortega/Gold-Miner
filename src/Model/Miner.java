@@ -1,21 +1,21 @@
 package Model;
 
 public class Miner {
-	int positionX;
-	int positionY;
-	int front;
+	private int positionX;
+	private int positionY;
+	private int front;
 	/*
 	 * 1 - north
 	 * 2 - east
 	 * 3 - south
 	 * 4 - west
 	 */
-	boolean finish;
+	private boolean finish;
 	
 	public Miner () {
 		positionX = 0;
 		positionY = 0;
-		front = '1';
+		front = 2;
 		finish = false;
 	}
 	
@@ -23,7 +23,7 @@ public class Miner {
 		return positionX;
 	}
 	
-	public int getPOsitionY () {
+	public int getPositionY () {
 		return positionY;
 	}
 	
@@ -47,16 +47,16 @@ public class Miner {
 	
 	public void rotate (char direction) {
 		switch (direction) {
-		case 'L':
-			front --;
-			if (front == 0)
-				front = 4;
-			break;
-		case 'R':
-			front ++;
-			if (front == 5)
-				front = 1;
-			break;
+			case 'L':
+				front--;
+				if (front == 0)
+					front = 4;
+				break;
+			case 'R':
+				front++;
+				if (front == 5)
+					front = 1;
+				break;
 		}
 	}
 }

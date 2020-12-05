@@ -85,4 +85,12 @@ public class GoldMiner {
 	public int getCtrPit (){
 		return ctrPit;
 	}
+
+	public int getMinerX (){
+		return miner.getPositionX();
+	}
+
+	public int getMinerY (){
+		return miner.getPositionY();
+	}
 }

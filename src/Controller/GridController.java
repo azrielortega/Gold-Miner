@@ -53,7 +53,7 @@ public class GridController {
     private static ImagePattern ipMiner = new ImagePattern(pMiner);
 
     private static GoldMiner game = new GoldMiner(1);
-    
+
     public void initialize() {
         int gridsize = 16; // INITIALIZATION
         gridsize = gridNumber;
@@ -175,6 +175,20 @@ public class GridController {
 
     public void StartGame() {
         System.out.println("GAME START");
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipDirt);
+        game.move();
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
+
+        System.out.println(game.getMinerX());
+        System.out.println(game.getMinerY());
+
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipDirt);
+        game.move();
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
+
+        System.out.println(game.getMinerX());
+        System.out.println(game.getMinerY());
+
     }
 
     public void close(ActionEvent event) {
