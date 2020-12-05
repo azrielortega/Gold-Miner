@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GridController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GridController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="700.0" fitWidth="831.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Images/grid.png" />
+            <Image url="@../Images/gridnew.png" />
          </image>
       </ImageView>
-      <Button fx:id="PitButton" layoutX="79.0" layoutY="316.0" mnemonicParsing="false" onAction="#clickPit" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="BeaconButton" layoutX="165.0" layoutY="316.0" mnemonicParsing="false" onAction="#clickBeacon" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="GoldButton" layoutX="252.0" layoutY="316.0" mnemonicParsing="false" onAction="#clickGold" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <ScrollPane layoutX="40.0" layoutY="34.0" prefHeight="262.0" prefWidth="521.0">
+      <ScrollPane layoutX="34.0" layoutY="35.0" prefHeight="494.0" prefWidth="731.0">
          <content>
-            <Pane fx:id="gPane" onMouseClicked="#handle" prefHeight="262.0" prefWidth="521.0" />
+            <Pane fx:id="gPane" onMouseClicked="#handle" prefHeight="494.0" prefWidth="731.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="SelectButton" layoutX="370.0" layoutY="316.0" mnemonicParsing="false" onAction="#clickSelect" prefHeight="38.0" prefWidth="187.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="PitButton" layoutX="72.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickPit" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="BeaconButton" layoutX="177.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickBeacon" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="GoldButton" layoutX="280.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickGold" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="SelectButton" layoutX="381.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickSelect" prefHeight="38.0" prefWidth="260.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="StartButton" layoutX="683.0" layoutY="543.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="69.0" prefWidth="72.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="RemoveButton" layoutX="363.0" layoutY="530.0" mnemonicParsing="false" onAction="#clickRemove" text="Remove" />
    </children>
 </Pane>
