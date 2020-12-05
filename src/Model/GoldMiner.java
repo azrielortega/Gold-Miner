@@ -74,6 +74,10 @@ public class GoldMiner {
 		board.setSpaceType(x, y, type);
 	}
 
+	public int getSpaceType (int x, int y){
+		return board.getSpaceType(x, y);
+	}
+
 	public int getCtrGold (){
 		return ctrGold;
 	}

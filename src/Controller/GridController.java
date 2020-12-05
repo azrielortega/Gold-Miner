@@ -82,6 +82,9 @@ public class GridController {
     public void clickPit() {
         resetClick = 1;
         pitClick = 1;
+        goldClick = 0;
+        beaconClick = 0;
+        removeClick = 0;
 
     }
 
@@ -101,16 +104,26 @@ public class GridController {
     public void clickGold() {
         resetClick = 1;
         goldClick = 1;
+        beaconClick = 0;
+        pitClick = 0;
+        removeClick = 0;
     }
 
     public void clickBeacon() {
         resetClick = 1;
         beaconClick = 1;
+        goldClick = 0;
+        pitClick = 0;
+        removeClick = 0;
     }
 
     public void clickRemove() {
         resetClick = 1;
         removeClick = 1;
+        goldClick = 0;
+        pitClick = 0;
+        beaconClick = 0;
+
     }
 
 
@@ -120,26 +133,26 @@ public class GridController {
         int width = 35;
         int colX = (int) (posX / width);
         int colY = (int) (posY / width);
-        if (pitClick == 1 && goldClick != 1 && beaconClick != 1 && resetClick != 0) { // PIT
-            if (colX != 0 || colY != 0) {
+        if (pitClick == 1) { // PIT
+            if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1) {
                 rec[colX][colY].setFill(ipPit);
                 game.setSpaceType(colY, colX, 2);
             }
         }
-        if (beaconClick != 1 && pitClick != 1 && goldClick == 1 && resetClick != 0) { // GOLD
-            if ((colX != 0 || colY != 0) && game.getCtrGold() < 1) {
+        if (goldClick == 1) { // GOLD
+            if ((colX != 0 || colY != 0) && game.getCtrGold() < 1 && game.getSpaceType(colY, colX) == 1) {
                 rec[colX][colY].setFill(ipGold);
                 game.setSpaceType(colY, colX, 4);
             }
         }
-        if (goldClick != 1 && pitClick != 1 && beaconClick == 1 && resetClick != 0) { //BEACON
-            if (colX != 0 || colY != 0) {
+        if (beaconClick == 1) { //BEACON
+            if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1) {
                 rec[colX][colY].setFill(ipBeacon);
                 game.setSpaceType(colY, colX, 3);
             }
         }
-        if (goldClick != 1 && pitClick != 1 && beaconClick != 1 && removeClick == 1 && resetClick != 0) { //REMOVE
-            if (colX != 0 || colY != 0) {
+        if (removeClick == 1) { //REMOVE
+            if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) != 1) {
                 rec[colX][colY].setFill(ipDirt);
                 game.setSpaceType(colY, colX, 1);
             }
