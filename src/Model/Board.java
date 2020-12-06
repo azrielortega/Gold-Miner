@@ -41,4 +41,8 @@ public class Board {
 	public int getSpaceType (int x, int y){
 		return spaces.get(x).get(y).getSpaceType();
 	}
+
+	public int getSize(){
+		return size;
+	}
 }

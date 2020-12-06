@@ -40,6 +40,53 @@ public class GoldMiner {
 	public void rotate (char direction) {
 		miner.rotate(direction);
 	}
+	
+	public int scan (){
+		int temp;
+		switch(miner.getFront()){
+			case 1:
+				temp = miner.getPositionX() - 1;
+				while(temp >= 0){
+					if (getSpaceType(temp, miner.getPositionY()) != 1)
+						return getSpaceType(temp, miner.getPositionY());
+
+					temp --;
+				}
+				return 1;
+			case 2:
+				temp = miner.getPositionY() + 1;
+				while(temp < board.getSize()){
+					if (getSpaceType(miner.getPositionX(), temp) != 1)
+						return getSpaceType(miner.getPositionX(), temp);
+
+					temp ++;
+				}
+				return 1;
+			case 3:
+				temp = miner.getPositionX() + 1;
+				while(temp < board.getSize()){
+					if (getSpaceType(temp, miner.getPositionY()) != 1)
+						return getSpaceType(temp, miner.getPositionY());
+
+					temp ++;
+				}
+				return 1;
+			case 4:
+				temp = miner.getPositionY() - 1;
+				while(temp >= 0){
+					if (getSpaceType(miner.getPositionX(), temp) != 1)
+						return getSpaceType(miner.getPositionX(), temp);
+
+					temp --;
+				}
+				return 1;
+		}
+		return -1;
+	}
+
+	public boolean isEdge (int x, int y){
+		return x == 0 || x == board.getSize() || y == 0 || y == board.getSize();
+	}
 
 	//BOARD FUNCTIONS
 	public void printBoard() {

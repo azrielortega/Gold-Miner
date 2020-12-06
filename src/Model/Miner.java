@@ -18,6 +18,10 @@ public class Miner {
 		front = 2;
 		finish = false;
 	}
+
+	public int getFront(){
+		return front;
+	}
 	
 	public int getPositionX() {
 		return positionX;
