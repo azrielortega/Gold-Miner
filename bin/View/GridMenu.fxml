@@ -21,6 +21,6 @@
       <Button fx:id="GoldButton" layoutX="280.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickGold" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
       <Button fx:id="SelectButton" layoutX="381.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickSelect" prefHeight="38.0" prefWidth="260.0" style="-fx-background-color: transparent;" />
       <Button fx:id="StartButton" layoutX="683.0" layoutY="543.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="69.0" prefWidth="72.0" style="-fx-background-color: transparent;" />
-      <Button layoutX="363.0" layoutY="530.0" mnemonicParsing="false" onAction="#clickRemove" text="Remove" />
+      <Button fx:id="RemoveButton" layoutX="363.0" layoutY="530.0" mnemonicParsing="false" onAction="#clickRemove" text="Remove" />
    </children>
 </Pane>
