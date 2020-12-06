@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +33,12 @@ public class GridController{
     private Button GoldButton;
     @FXML
     private Button BeaconButton;
+    @FXML
+    private Label MoveCounter;
+    @FXML
+    private Label RotateCounter;
+    @FXML
+    private Label GoldCounter;
 
     private static int gridNumber;
     private static int resetClick = 0;
