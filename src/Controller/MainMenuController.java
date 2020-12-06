@@ -14,13 +14,14 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import Model.GoldMiner;
+
 import java.io.IOException;
 
 public class MainMenuController {
 
     @FXML
     private TextField gridNum;
-
 
     public void OpenSettings(ActionEvent event) {
         Parent root;
