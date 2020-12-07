@@ -11,12 +11,22 @@ public class GoldMiner {
 	private int ctrBeacon;
 	private int ctrPit;
 
+	private int rotate;
+	private int move;
+	private int scan;
+
 	public GoldMiner(int minerType) {
 		miner = new Miner();
 		board = new Board();
+
 		ctrGold = 0;
 		ctrBeacon = 0;
 		ctrPit = 0;
+
+		rotate = 0;
+		move = 0;
+		scan = 0;
+
 		this.minerType = minerType;
 	}
 	//INITIALIZATION
@@ -34,15 +44,19 @@ public class GoldMiner {
 //AI FUNCTIONS
 
 	public void move () {
+		move ++;
 		miner.move();
+		System.out.println(move);
 	}
 
 	public void rotate (char direction) {
+		rotate++;
 		miner.rotate(direction);
 	}
 	
 	public int scan (){
 		int temp;
+		scan++;
 		switch(miner.getFront()){
 			case 1:
 				temp = miner.getPositionX() - 1;
@@ -82,6 +96,18 @@ public class GoldMiner {
 				return 1;
 		}
 		return -1;
+	}
+
+	public int getRotate(){
+		return rotate;
+	}
+
+	public int getScan(){
+		return scan;
+	}
+
+	public int getMove(){
+		return move;
 	}
 
 	public boolean isEdge (int x, int y){

@@ -56,8 +56,20 @@ public class GridController{
     private static ImagePattern ipBeacon = new ImagePattern(pBeacon);
     private static Image pDirt = new Image("/Images/dirt.png");
     private static ImagePattern ipDirt = new ImagePattern(pDirt);
-    private static Image pMiner = new Image("/Images/miner.png");
-    private static ImagePattern ipMiner = new ImagePattern(pMiner);
+    //RIGHT
+    private static Image pMinerRight = new Image("/Images/miner.png");
+    private static ImagePattern ipMinerRight = new ImagePattern(pMinerRight);
+    //LEFT
+    private static Image pMinerLeft = new Image("/Images/left view.png");
+    private static ImagePattern ipMinerLeft = new ImagePattern (pMinerLeft);
+    //UP
+    private static Image pMinerUp = new Image("/Images/top view.png");
+    private static ImagePattern ipMinerUp = new ImagePattern (pMinerUp);
+    //DOWN
+    private static Image pMinerDown = new Image("/Images/down view.png");
+    private static ImagePattern ipMinerDown = new ImagePattern (pMinerDown);
+
+    private static ImagePattern ipMiner = new ImagePattern(pMinerRight);
 
     private static GoldMiner game = new GoldMiner(1);
 
@@ -198,28 +210,28 @@ public class GridController{
     public void StartGame() {
         startClick = 1;
         System.out.println("GAME START");
-        game.rotate('R');
-        for(int i = 0; i < 5; i++){
-            move();
-        }
+        
+    }
 
-        game.rotate('L');
-        for(int i = 0; i < 3; i++){
-            move();
+    public void rotate (char direction){
+        game.rotate(direction);
+        RotateCounter.setText(Integer.toString(game.getRotate()));
+        System.out.println(game.getMiner().getFront());
+        switch(game.getMiner().getFront()){
+            case 1://UP
+                ipMiner = new ImagePattern(pMinerUp);
+                break;
+            case 2://RIGHT
+                ipMiner = new ImagePattern(pMinerRight);
+                break;
+            case 3://DOWN
+                ipMiner = new ImagePattern (pMinerDown);
+                break;
+            case 4://LEFT
+                ipMiner = new ImagePattern(pMinerLeft);
+                break;
         }
-        game.rotate('L');
-        for(int i = 0; i < 2; i++){
-            move();
-        }
-
-        System.out.println(game.scan()); //up
-        game.rotate('R');
-        System.out.println(game.scan()); //right
-        game.rotate('R');
-        System.out.println(game.scan()); //down
-        game.rotate('R');
-        System.out.println(game.scan()); //left
-
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
     }
 
     public void move (){
@@ -228,6 +240,8 @@ public class GridController{
         game.move();
         game.setSpaceType(game.getMinerY(), game.getMinerX(), 5);
         rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
+
+        MoveCounter.setText(Integer.toString(game.getMove()));
     }
 
     public void close(ActionEvent event) {
