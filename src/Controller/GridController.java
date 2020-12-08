@@ -317,8 +317,7 @@ public class GridController{
             rotateTill(direction);
             int temp = scan();
             scan = true;
-
-            System.out.println(temp);
+            ;
             if(temp == 4){ //GO TOWARDS GOLD ONCE FOUND
                 while(game.getSpaceMemory(game.getMinerX(), game.getMinerY()) != 4) {
                     if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() + 1, game.getMinerY()) == 4)
@@ -335,6 +334,46 @@ public class GridController{
 
                 if(game.getSpaceMemory(x, y) == 4){
                     return "true";
+                }
+            }
+
+            if (temp == 3){//GO TO BEACON
+                boolean arrived = false;
+                while(!arrived) {
+                    if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() + 1, game.getMinerY()) == 5) {
+                        move();
+                        arrived = true;
+                    }
+                    if(!game.isEdge(game.getMinerX() - 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() - 1, game.getMinerY()) == 5) {
+                        move();
+                        arrived = true;
+                    }
+                    System.out.println(!game.isEdge(game.getMinerX(), game.getMinerY() + 1) && game.getSpaceMemory(game.getMinerX(), game.getMinerY() + 1) == 3);
+                    if(!game.isEdge(game.getMinerX(), game.getMinerY() + 1) && game.getSpaceMemory(game.getMinerX(), game.getMinerY() + 1) == 5) {
+                        move();
+                        arrived = true;
+                    }
+                    if(!game.isEdge(game.getMinerX(), game.getMinerY() - 1) &&game.getSpaceMemory(game.getMinerX(), game.getMinerY() - 1) == 5) {
+                        move();
+                        arrived = true;
+                    }
+                    System.out.println("Memory");
+                    game.printMemory();
+                    System.out.println("Board");
+                    game.printBoard();
+                    System.out.println();
+                    if (!arrived)
+                        move();
+                }
+
+                if(game.getSpaceMemory(x, y) == 3){
+                    move();
+                    arrived = true;
+                }
+
+                if (arrived){
+                    if (findGold())
+                        return "true";
                 }
             }
         }
@@ -410,6 +449,46 @@ public class GridController{
         }
 
         return status;
+    }
+
+    public boolean findGold(){
+        boolean found = false;
+        int ctr = 0;
+        while(!found){
+            if (ctr == 0)
+                rotate('R');
+
+            else
+                rotate('L');
+
+            int temp = scan();
+            if(temp == 4){ //GO TOWARDS GOLD ONCE FOUND
+                while(game.getSpaceMemory(game.getMinerX(), game.getMinerY()) != 4) {
+                    if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() + 1, game.getMinerY()) == 4) {
+                        found = true;
+                        break;
+                    }
+                    if(!game.isEdge(game.getMinerX() - 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() - 1, game.getMinerY()) == 4){
+                        found = true;
+                        break;
+                    }
+                    if(!game.isEdge(game.getMinerX(), game.getMinerY() + 1) && game.getSpaceMemory(game.getMinerX(), game.getMinerY() + 1) == 4){
+                        found = true;
+                        break;
+                    }
+                    if(!game.isEdge(game.getMinerX(), game.getMinerY() - 1) &&game.getSpaceMemory(game.getMinerX(), game.getMinerY() - 1) == 4){
+                        found = true;
+                        break;
+                    }
+                    move();
+                }
+                if(game.getSpaceMemory(game.getMinerX(), game.getMinerY()) == 4){
+                    found = true;
+                }
+            }
+        }
+
+        return found;
     }
 
 

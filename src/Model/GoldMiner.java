@@ -187,6 +187,8 @@ public class GoldMiner {
 			if(memory.getSpaceType(x, i) == 1)
 				updateMemory(x, i, 6);
 		}
+
+		updateMemory(x, y, 5);
 	}
 
 	public boolean isEdge (int x, int y){
