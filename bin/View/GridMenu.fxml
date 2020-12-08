@@ -30,7 +30,7 @@
             <Font name="Arial Black" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="GoldCounter" alignment="CENTER" layoutX="517.0" layoutY="574.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY">
+      <Label fx:id="ScanCounter" alignment="CENTER" layoutX="517.0" layoutY="574.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY">
          <font>
             <Font name="Arial Black" size="25.0" />
          </font>

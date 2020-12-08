@@ -38,7 +38,7 @@ public class GridController{
     @FXML
     private Label RotateCounter;
     @FXML
-    private Label GoldCounter;
+    private Label ScanCounter;
 
     private static int gridNumber;
     private static int resetClick = 0;
@@ -126,6 +126,7 @@ public class GridController{
         beaconClick = 0;
         pitClick = 0;
         removeClick = 0;
+        game.printBoard();
     }
 
     public void clickBeacon() {
@@ -207,16 +208,9 @@ public class GridController{
         }
     }
 
-    public void StartGame() {
-        startClick = 1;
-        System.out.println("GAME START");
-        
-    }
-
     public void rotate (char direction){
         game.rotate(direction);
         RotateCounter.setText(Integer.toString(game.getRotate()));
-        System.out.println(game.getMiner().getFront());
         switch(game.getMiner().getFront()){
             case 1://UP
                 ipMiner = new ImagePattern(pMinerUp);
@@ -234,18 +228,221 @@ public class GridController{
         rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
     }
 
+    public void rotateTill (String direction){
+        switch(direction){
+            case "Up"://UP
+                while(game.getMiner().getFront() != 1){
+                    if (game.getMiner().getFront() != 4)
+                        rotate('L');
+                    else
+                        rotate('R');
+                }
+                break;
+            case "Right"://RIGHT
+                while(game.getMiner().getFront() != 2){
+                    if (game.getMiner().getFront() != 1)
+                        rotate('L');
+                    else
+                        rotate('R');
+                }
+                break;
+            case "Down"://DOWN
+                while(game.getMiner().getFront() != 3){
+                    if (game.getMiner().getFront() != 2)
+                        rotate('L');
+                    else
+                        rotate('R');
+                }
+                break;
+            case "Left"://LEFT
+                while(game.getMiner().getFront() != 4){
+                    if (game.getMiner().getFront() != 3)
+                        rotate('L');
+                    else
+                        rotate('R');
+                }
+                break;
+        }
+    }
+
     public void move (){
-        game.setSpaceType(game.getMinerY(), game.getMinerX(), 1);
+        game.setSpaceType(game.getMinerX(), game.getMinerY(), 1);
         rec[game.getMinerY()][game.getMinerX()].setFill(ipDirt);
         game.move();
-        game.setSpaceType(game.getMinerY(), game.getMinerX(), 5);
+        game.setSpaceType(game.getMinerX(), game.getMinerY(), 5);
         rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
 
         MoveCounter.setText(Integer.toString(game.getMove()));
     }
 
+    public int scan(){
+        int temp = game.scan();
+        ScanCounter.setText(Integer.toString(game.getScan()));
+        return temp;
+    }
+
     public void close(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
+
+    //--------------------------------------------MINER AI SMART-------------------------------------------------------
+    public void StartGame() {
+        startClick = 1;
+        System.out.println("GAME START");
+        smartAI();
+    }
+
+    public void smartAI(){
+        int i = 0;
+        System.out.println(game.getMinerX() + " " + game.getMinerY());
+        game.updateMemory(game.getMinerX(), game.getMinerY(), 1);
+        System.out.println(search(game.getMinerX(), game.getMinerY() + 1, "NULL"));
+    }
+
+    public String search(int x, int y, String direction){//memory
+        String right = "";
+        String left = "";
+        String up = "";
+        String down = "";
+        boolean scan = false;
+        String status = "false";
+        System.out.println("Front - " + game.getMiner().getFront());
+
+        System.out.println("Memory");
+        game.printMemory();
+
+        if (game.isEdge(x, y))
+            return "false";
+
+        if (game.getSpaceMemory(x, y) == 1) {//unexplored path
+            rotateTill(direction);
+            int temp = scan();
+            scan = true;
+
+            System.out.println(temp);
+            if(temp == 4){ //GO TOWARDS GOLD ONCE FOUND
+                while(game.getSpaceMemory(game.getMinerX(), game.getMinerY()) != 4) {
+                    if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() + 1, game.getMinerY()) == 4)
+                        return "true";
+                    if(!game.isEdge(game.getMinerX() - 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() - 1, game.getMinerY()) == 4)
+                        return "true";
+                    if(!game.isEdge(game.getMinerX(), game.getMinerY() + 1) && game.getSpaceMemory(game.getMinerX(), game.getMinerY() + 1) == 4)
+                        return "true";
+                    if(!game.isEdge(game.getMinerX(), game.getMinerY() - 1) &&game.getSpaceMemory(game.getMinerX(), game.getMinerY() - 1) == 4)
+                        return "true";
+
+                    move();
+                }
+
+                if(game.getSpaceMemory(x, y) == 4){
+                    return "true";
+                }
+            }
+        }
+
+        if(game.getSpaceMemory(x, y) == 4){
+            return "true";
+        }
+
+        if (game.getSpaceMemory(x, y) == 7) //explored path
+            return "false";
+
+        if (game.getSpaceMemory(x, y) == 3) //pit
+            return "false";
+
+        System.out.println("going");
+        if(!scan && direction != "NULL") {
+            rotateTill(direction);
+        }
+
+        game.updateMemory(x, y, 7);
+        System.out.println("MOVED!");
+        move();
+        status = "moved";
+
+        System.out.println("Board");
+        game.printBoard();
+
+        System.out.println("tempX - " + x);
+        System.out.println("tempY - " + y);
+        System.out.println("X - " + game.getMinerX());
+        System.out.println("Y - " + game.getMinerY());
+        System.out.println();
+
+
+        System.out.println("Right");
+        right = search(x, y + 1, "Right");
+        if (right == "true")
+            return "true";
+        else if(right == "moved") {
+            System.out.println("Move Back! - Left");
+            rotateTill("Left");
+            move();
+        }
+        System.out.println("tempX - " + x);
+        System.out.println("tempY - " + y);
+        System.out.println("X - " + game.getMinerX());
+        System.out.println("Y - " + game.getMinerY());
+
+
+        System.out.println("Left");
+        left = search (x, y - 1, "Left");
+        if (left == "true")
+            return "true";
+        else if(left == "moved") {
+            System.out.println("Move Back! - Right");
+            rotateTill("Right");
+            move();
+        }
+        System.out.println("tempX - " + x);
+        System.out.println("tempY - " + y);
+        System.out.println("X - " + game.getMinerX());
+        System.out.println("Y - " + game.getMinerY());
+
+
+        System.out.println("Down");
+        down = search (x + 1, y, "Down");
+        if (down == "true")
+            return "true";
+        else if(down == "moved") {
+            System.out.println("Move Back! - Up");
+            rotateTill("Up");
+            move();
+        }
+        System.out.println("tempX - " + x);
+        System.out.println("tempY - " + y);
+        System.out.println("X - " + game.getMinerX());
+        System.out.println("Y - " + game.getMinerY());
+
+
+        System.out.println("Up");
+        up = search (x - 1, y, "Up");
+        if (up == "true")
+            return "true";
+        else if(up == "moved") {
+            System.out.println("Move Back! - Down");
+            rotateTill("Down");
+            move();
+        }
+        System.out.println("tempX - " + x);
+        System.out.println("tempY - " + y);
+        System.out.println("X - " + game.getMinerX());
+        System.out.println("Y - " + game.getMinerY());
+
+        boolean found = right == "true" || left == "true" || down == "true" || up == "true";
+
+        if (found){
+            System.out.println("GOLD FOUND");
+            return "true";
+        }
+        else{
+            game.updateMemory(x, y, 3);
+            System.out.println("Dead End");
+        }
+
+        return status;
+    }
+
+
 
 }
