@@ -307,14 +307,13 @@ public class GridController{
         boolean scan = false;
         String status = "false";
         System.out.println("Front - " + game.getMiner().getFront());
-
-        System.out.println("Memory");
         game.printMemory();
 
         if (game.isEdge(x, y))
             return "false";
 
         if (game.getSpaceMemory(x, y) == 1) {//unexplored path
+            System.out.println("Scanned");
             rotateTill(direction);
             int temp = scan();
             scan = true;
@@ -356,64 +355,8 @@ public class GridController{
         }
 
         game.updateMemory(x, y, 7);
-        System.out.println("MOVED!");
         move();
         status = "moved";
-
-        System.out.println("Board");
-        game.printBoard();
-
-        System.out.println("tempX - " + x);
-        System.out.println("tempY - " + y);
-        System.out.println("X - " + game.getMinerX());
-        System.out.println("Y - " + game.getMinerY());
-        System.out.println();
-
-
-        System.out.println("Right");
-        right = search(x, y + 1, "Right");
-        if (right == "true")
-            return "true";
-        else if(right == "moved") {
-            System.out.println("Move Back! - Left");
-            rotateTill("Left");
-            move();
-        }
-        System.out.println("tempX - " + x);
-        System.out.println("tempY - " + y);
-        System.out.println("X - " + game.getMinerX());
-        System.out.println("Y - " + game.getMinerY());
-
-
-        System.out.println("Left");
-        left = search (x, y - 1, "Left");
-        if (left == "true")
-            return "true";
-        else if(left == "moved") {
-            System.out.println("Move Back! - Right");
-            rotateTill("Right");
-            move();
-        }
-        System.out.println("tempX - " + x);
-        System.out.println("tempY - " + y);
-        System.out.println("X - " + game.getMinerX());
-        System.out.println("Y - " + game.getMinerY());
-
-
-        System.out.println("Down");
-        down = search (x + 1, y, "Down");
-        if (down == "true")
-            return "true";
-        else if(down == "moved") {
-            System.out.println("Move Back! - Up");
-            rotateTill("Up");
-            move();
-        }
-        System.out.println("tempX - " + x);
-        System.out.println("tempY - " + y);
-        System.out.println("X - " + game.getMinerX());
-        System.out.println("Y - " + game.getMinerY());
-
 
         System.out.println("Up");
         up = search (x - 1, y, "Up");
@@ -424,10 +367,36 @@ public class GridController{
             rotateTill("Down");
             move();
         }
-        System.out.println("tempX - " + x);
-        System.out.println("tempY - " + y);
-        System.out.println("X - " + game.getMinerX());
-        System.out.println("Y - " + game.getMinerY());
+
+        System.out.println("Right");
+        right = search(x, y + 1, "Right");
+        if (right == "true")
+            return "true";
+        else if(right == "moved") {
+            System.out.println("Move Back! - Left");
+            rotateTill("Left");
+            move();
+        }
+
+        System.out.println("Down");
+        down = search (x + 1, y, "Down");
+        if (down == "true")
+            return "true";
+        else if(down == "moved") {
+            System.out.println("Move Back! - Up");
+            rotateTill("Up");
+            move();
+        }
+
+        System.out.println("Left");
+        left = search (x, y - 1, "Left");
+        if (left == "true")
+            return "true";
+        else if(left == "moved") {
+            System.out.println("Move Back! - Right");
+            rotateTill("Right");
+            move();
+        }
 
         boolean found = right == "true" || left == "true" || down == "true" || up == "true";
 
