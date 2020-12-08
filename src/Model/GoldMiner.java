@@ -14,6 +14,9 @@ public class GoldMiner {
 	private int move;
 	private int scan;
 
+	private int goldX;
+	private int goldY;
+
 	private Board board;
 	/*
 	1 - dirt
@@ -235,10 +238,105 @@ public class GoldMiner {
 				ctrBeacon++;
 				break;
 			case 4:
+				goldX = x;
+				goldY = y;
 				ctrGold++;
 				break;
 		}
 		board.setSpaceType(x, y, type);
+	}
+
+	public boolean isBeaconValid(int x, int y){
+		if (ctrGold == 0)
+			return false;
+
+		int tempX = goldX - x;
+		int tempY = goldY - y;
+
+		System.out.println(tempX);
+		System.out.println(tempY);
+
+		if(tempY != 0 || tempX != 0){ //along the x or y axis of gold
+			//CHECK IF THERE IS PIT IN BETWEEN
+			if(tempX != 0){
+				if(tempX > 0){//south
+					for (int i = x; i < goldX; i++){
+						if (getSpaceType(i, y) == 2)
+							return false;
+					}
+				}
+				else if (tempX < 0){//north
+					for (int i = x; i > goldX; i--){
+						if (getSpaceType(i, y) == 2)
+							return false;
+					}
+				}
+				return true;
+			}
+
+			if (tempY != 0){
+				if(tempY < 0){//east
+					for (int i = y; i > goldY; i--){
+						if (getSpaceType(x, i) == 2)
+							return false;
+					}
+				}
+				else if (tempY > 0){//west
+					System.out.println("Y- " + y);
+					System.out.println(goldY);
+					for (int i = y; i < goldY; i++){
+						if (getSpaceType(x, i) == 2)
+							return false;
+					}
+				}
+				return true;
+			}
+		}
+
+		return true;
+	}
+
+	public boolean isPitValid (int x, int y){
+		int tempX = goldX - x;
+		int tempY = goldY - y;
+		System.out.println(tempX);
+		System.out.println(tempY);
+		if(tempY != 0 || tempX != 0){ //along the x or y axis of gold
+		//CHECK IF THERE IS BEACON
+			if(tempX != 0){
+				if(tempX > 0){//south
+					for (int i = x; i >= 0; i--){
+						if (getSpaceType(i, y) == 3)
+							return false;
+					}
+				}
+				else if (tempX < 0){//north
+					for (int i = x; i < board.getSize(); i++){
+						if (getSpaceType(i, y) == 3)
+							return false;
+					}
+				}
+				return true;
+			}
+
+			if (tempY != 0){
+				if(tempY < 0){//east
+					for (int i = y; i < board.getSize(); i++){
+						if (getSpaceType(x, i) == 3)
+							return false;
+					}
+				}
+				else if (tempY > 0){//west
+					for (int i = y; i >= 0; i--){
+						if (getSpaceType(x, i) == 3)
+							return false;
+					}
+				}
+				return true;
+			}
+		}
+
+		return true;
 	}
 
 	public int getSpaceType (int x, int y){
