@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.GoldMiner;
+import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class GridController{
@@ -69,6 +69,22 @@ public class GridController{
     private static Image pMinerDown = new Image("/Images/down view.png");
     private static ImagePattern ipMinerDown = new ImagePattern (pMinerDown);
 
+    //MINER IN GOLD
+    private static Image pMinerGold = new Image("/Images/MinerInGold.png");
+    private static ImagePattern ipMinerGold = new ImagePattern (pMinerGold);
+
+    //MINER IN PIT
+    private static Image pMinerPit = new Image("/Images/MinerInPit.png");
+    private static ImagePattern ipMinerPit = new ImagePattern (pMinerPit);
+
+    //MINER IN BEACON
+    private static Image pMinerBeacon = new Image("/Images/MinerInBeacon.png");
+    private static ImagePattern ipMinerBeacon = new ImagePattern (pMinerBeacon);
+
+    //SCANNING TILE
+    private static Image pScanTile = new Image("/Images/scanTile.png");
+    private static ImagePattern ipScanTile = new ImagePattern (pScanTile);
+
     private static ImagePattern ipMiner = new ImagePattern(pMinerRight);
 
     private static GoldMiner game = new GoldMiner(1);
@@ -96,6 +112,7 @@ public class GridController{
             }
             rec[0][0].setFill(ipMiner);
         }
+
     }
 
     public void clickPit() {
