@@ -329,6 +329,9 @@ public class GridController{
         return temp;
     }
 
+    public void ExitGame() {
+    }
+
     public void close(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }

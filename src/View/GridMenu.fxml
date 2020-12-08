@@ -23,7 +23,7 @@
       <Button fx:id="PitButton" layoutX="51.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickPit" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
       <Button fx:id="BeaconButton" layoutX="146.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickBeacon" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
       <Button fx:id="GoldButton" layoutX="238.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickGold" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="StartButton" layoutX="683.0" layoutY="543.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="69.0" prefWidth="72.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="StartButton" layoutX="661.0" layoutY="562.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="62.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
       <Button fx:id="RemoveButton" layoutX="322.0" layoutY="553.0" mnemonicParsing="false" onAction="#clickRemove" prefHeight="49.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
       <Label fx:id="MoveCounter" alignment="CENTER" layoutX="445.0" layoutY="574.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY">
          <font>
@@ -40,5 +40,6 @@
             <Font name="Arial Black" size="14.0" />
          </font>
       </Label>
+      <Button fx:id="ExitButton" layoutX="724.0" layoutY="562.0" mnemonicParsing="false" onAction="#ExitGame" prefHeight="62.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
    </children>
 </Pane>
