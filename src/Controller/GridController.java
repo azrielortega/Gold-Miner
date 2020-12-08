@@ -225,6 +225,37 @@ public class GridController{
         }
     }
 
+    public void openGoldFound(ActionEvent event){
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GoldFound.fxml"));
+            javafx.stage.Stage stage = new Stage();
+            stage.setTitle("CONGRATULATIONS: GOLD FOUND!");
+            stage.setScene(new Scene(root, 427, 239));
+            stage.setResizable(false);
+            stage.show();
+            close(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openGameOver(ActionEvent event){
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GameOver.fxml"));
+            javafx.stage.Stage stage = new Stage();
+            stage.setTitle("GAME OVER!");
+            stage.setScene(new Scene(root, 427, 239));
+            stage.setResizable(false);
+            stage.show();
+
+            close(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void rotate (char direction){
         game.rotate(direction);
         RotateCounter.setText(Integer.toString(game.getRotate()));
