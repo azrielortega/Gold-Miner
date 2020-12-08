@@ -172,7 +172,7 @@ public class GridController{
             int colX = (int) (posX / width);
             int colY = (int) (posY / width);
             if (pitClick == 1) { // PIT
-                if (game.getCtrGold() != 0 && (colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1 && game.isPitValid(colY, colX)) {
+                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1) {
                     rec[colX][colY].setFill(ipPit);
                     game.setSpaceType(colY, colX, 2);
                 }
@@ -184,7 +184,7 @@ public class GridController{
                 }
             }
             if (beaconClick == 1) { //BEACON
-                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1 && game.isBeaconValid(colY, colX)) {
+                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1) {
                     rec[colX][colY].setFill(ipBeacon);
                     game.setSpaceType(colY, colX, 3);
                 }
