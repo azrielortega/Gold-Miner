@@ -256,7 +256,7 @@ public class GoldMiner {
 		System.out.println(tempX);
 		System.out.println(tempY);
 
-		if(tempY != 0 || tempX != 0){ //along the x or y axis of gold
+		if(tempY == 0 || tempX == 0){ //along the x or y axis of gold
 			//CHECK IF THERE IS PIT IN BETWEEN
 			if(tempX != 0){
 				if(tempX > 0){//south
@@ -293,7 +293,7 @@ public class GoldMiner {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	public boolean isPitValid (int x, int y){

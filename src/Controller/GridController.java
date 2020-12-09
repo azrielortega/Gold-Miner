@@ -89,6 +89,8 @@ public class GridController{
 
     private static GoldMiner game = new GoldMiner(1);
 
+    private int tempCtr = 0;
+
     public void initialize() {
         int gridsize = 16; // INITIALIZATION
         gridsize = gridNumber;
@@ -172,7 +174,7 @@ public class GridController{
             int colX = (int) (posX / width);
             int colY = (int) (posY / width);
             if (pitClick == 1) { // PIT
-                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1) {
+                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1 && game.getCtrGold() == 1 && game.isPitValid(colY, colX)) {
                     rec[colX][colY].setFill(ipPit);
                     game.setSpaceType(colY, colX, 2);
                 }
@@ -184,7 +186,8 @@ public class GridController{
                 }
             }
             if (beaconClick == 1) { //BEACON
-                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1) {
+                if ((colX != 0 || colY != 0) && game.getSpaceType(colY, colX) == 1 && game.getCtrGold() == 1 && game.isBeaconValid(colY, colX)) {
+                    System.out.println(game.isBeaconValid(colY, colX));
                     rec[colX][colY].setFill(ipBeacon);
                     game.setSpaceType(colY, colX, 3);
                 }
@@ -351,6 +354,7 @@ public class GridController{
     }
 
     public String search(int x, int y, String direction){//memory
+        tempCtr++;
         String right = "";
         String left = "";
         String up = "";
@@ -436,8 +440,13 @@ public class GridController{
         if (game.getSpaceMemory(x, y) == 7) //explored path
             return "false";
 
-        if (game.getSpaceMemory(x, y) == 3) //pit
+        if (game.getSpaceMemory(x, y) == 3 && tempCtr != 1) //pit
             return "false";
+        else if(game.getSpaceMemory(x, y) == 3 && tempCtr == 1){
+            rotate('R');
+            x++;
+            y--;
+        }
 
         System.out.println("going");
         if(!scan && direction != "NULL") {
