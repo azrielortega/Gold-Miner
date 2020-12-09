@@ -339,18 +339,26 @@ public class GridController{
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
-    //--------------------------------------------MINER AI SMART-------------------------------------------------------
     public void StartGame() {
         startClick = 1;
         System.out.println("GAME START");
         smartAI();
     }
 
+    //--------------------------------------------MINER AI SMART-------------------------------------------------------
     public void smartAI(){
         int i = 0;
         System.out.println(game.getMinerX() + " " + game.getMinerY());
         game.updateMemory(game.getMinerX(), game.getMinerY(), 1);
-        System.out.println(search(game.getMinerX(), game.getMinerY() + 1, "NULL"));
+        String result = search (game.getMinerX(), game.getMinerY() + 1, "NULL");
+        ActionEvent event = new ActionEvent();
+
+        if (result == "true"){
+            openGoldFound(event);
+        }
+        else{
+            openGameOver(event);
+        }
     }
 
     public String search(int x, int y, String direction){//memory
