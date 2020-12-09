@@ -36,6 +36,8 @@ public class GoldMiner {
 	7 - explored
 	 */
 
+	private int currentSpaceType = 0;
+
 	public GoldMiner(int minerType) {
 		miner = new Miner();
 		board = new Board();
@@ -69,6 +71,20 @@ public class GoldMiner {
 
 	public void move () {
 		move ++;
+		switch(miner.getFront()){
+			case 1:
+				storeCurrentSpaceType(getSpaceType(miner.getPositionX() -1, miner.getPositionY()));
+				break;
+			case 2:
+				storeCurrentSpaceType(getSpaceType(miner.getPositionX(), miner.getPositionY() + 1));
+				break;
+			case 3:
+				storeCurrentSpaceType(getSpaceType(miner.getPositionX() +1, miner.getPositionY()));
+				break;
+			case 4:
+				storeCurrentSpaceType(getSpaceType(miner.getPositionX(), miner.getPositionY() - 1));
+				break;
+		}
 		miner.move();
 	}
 
@@ -244,6 +260,14 @@ public class GoldMiner {
 				break;
 		}
 		board.setSpaceType(x, y, type);
+	}
+
+	public void storeCurrentSpaceType(int type){
+		currentSpaceType = type;
+	}
+
+	public int getSpaceTypeInMiner(int x, int y){
+		return currentSpaceType;
 	}
 
 	public boolean isBeaconValid(int x, int y){

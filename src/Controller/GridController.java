@@ -350,6 +350,7 @@ public class GridController{
         int i = 0;
         System.out.println(game.getMinerX() + " " + game.getMinerY());
         game.updateMemory(game.getMinerX(), game.getMinerY(), 1);
+        
         String result = search (game.getMinerX(), game.getMinerY() + 1, "NULL");
         ActionEvent event = new ActionEvent();
 
@@ -359,6 +360,17 @@ public class GridController{
         else{
             openGameOver(event);
         }
+
+        /*
+        boolean result = randomAI ();
+        ActionEvent event = new ActionEvent();
+
+        if (result){
+            openGoldFound(event);
+        }
+        else{
+            openGameOver(event);
+        }*/
     }
 
     public String search(int x, int y, String direction){//memory
@@ -558,7 +570,81 @@ public class GridController{
 
         return found;
     }
+//----------------------------------------------Miner AI Random---------------------------------------------------------
 
+    public boolean randomAI(){
+        boolean end = false;
+        while(!end){//If miner is not in pit or in gold, continue;
+            System.out.println("SPACE TYPE - " + game.getSpaceType(game.getMinerX(), game.getMinerY()));
+            if (game.getSpaceTypeInMiner(game.getMinerX(), game.getMinerY()) == 2){
+                return false;
+            }
+            if (game.getSpaceTypeInMiner(game.getMinerX(), game.getMinerY()) == 4){
+                return true;
+            }
+            game.printBoard();
+            System.out.println(randomNumber());
+
+            int temp = randomNumber();
+            switch(temp){
+                case 1: case 2: case 3: case 4: case 5: case 6://MOVE
+                    System.out.println("MOVED");
+                    boolean valid = true;
+                    switch(game.getMiner().getFront()){
+                        case 1:
+                            System.out.println("Up");
+                            if(game.isEdge(game.getMinerX() - 1, game.getMinerY())) {
+                                rotate('R');
+                                valid = false;
+                            }
+                            break;
+                        case 2:
+                            System.out.println("Right");
+                            if(game.isEdge(game.getMinerX(), game.getMinerY() + 1)) {
+                                rotate('R');
+                                valid = false;
+                            }
+                            break;
+                        case 3:
+                            System.out.println("Down");
+                            if(game.isEdge(game.getMinerX() + 1, game.getMinerY())) {
+                                rotate('R');
+                                valid = false;
+                            }
+                            break;
+                        case 4:
+                            System.out.println("Left");
+                            if(game.isEdge(game.getMinerX(), game.getMinerY() - 1)) {
+                                rotate('R');
+                                valid = false;
+                            }
+                            break;
+                    }
+                    if (valid)
+                        move();
+                    break;
+                case 7: case 8://SCAN
+                    System.out.println("SCANNED");
+                    scan();
+                    break;
+                case 9: case 10://ROTATE
+                    System.out.println("ROTATED");
+                    if(temp == 9)
+                        rotate('R');
+                    else
+                        rotate('L');
+                    break;
+            }
+        }
+        return false;
+    }
+
+    public int randomNumber(){
+        int max = 10;
+        int min  = 1;
+
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
 
 
 }
