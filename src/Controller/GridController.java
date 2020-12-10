@@ -93,9 +93,9 @@ public class GridController{
 
     private static GoldMiner game = new GoldMiner(1);
 
-    private int tempCtr = 0;
+    private Timeline animation;
 
-    Timeline animation;
+    private int tempCtr = 0;
 
     public void initialize() {
         int gridsize = 16; // INITIALIZATION
@@ -152,6 +152,8 @@ public class GridController{
         pitClick = 0;
         removeClick = 0;
         game.printBoard();
+        System.out.println("X- " + game.getMinerX());
+        System.out.println("Y- " + game.getMinerY());
     }
 
     public void clickBeacon() {
@@ -322,16 +324,6 @@ public class GridController{
         }
     }
 
-    public void gameMove(){
-        game.setSpaceType(game.getMinerX(), game.getMinerY(), 1);
-        rec[game.getMinerY()][game.getMinerX()].setFill(ipDirt);
-        game.move();
-        game.setSpaceType(game.getMinerX(), game.getMinerY(), 5);
-        rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
-
-        MoveCounter.setText(Integer.toString(game.getMove()));
-    }
-
     public int scan(){
         int temp = game.scan();
         ScanCounter.setText(Integer.toString(game.getScan()));
@@ -349,22 +341,39 @@ public class GridController{
         startClick = 1;
         System.out.println("GAME START");
         smartAI();
+        //move();
+        System.out.println("X- " + game.getMinerX());
+        System.out.println("Y- " + game.getMinerY());
     }
 
-    public void move() {
-        animation = new Timeline(new KeyFrame(Duration.millis(300), event -> {
-            try {
-                gameMove();
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+
+    public void gameMove(int x, int y){
+        game.setSpaceType(x, y, 1);
+        rec[y][x].setFill(ipDirt);
+
+        game.setSpaceType(game.getMinerX(), game.getMinerY(), 5);
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
+
+        MoveCounter.setText(Integer.toString(game.getMove()));
+    }
+
+    public void animationMove(int x, int y) {
+        animation = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+            System.out.println("2 - Hello");
+            gameMove(x, y);
         }));
         animation.setCycleCount(Timeline.INDEFINITE);
+        System.out.println("1 - Hello");
         animation.play();
-
+        System.out.println("3 - Hello");
     }
 
-
+    public void move(){
+        int x = game.getMinerX();
+        int y = game.getMinerY();
+        game.move();
+        animationMove(x, y);
+    }
 
     //--------------------------------------------MINER AI SMART-------------------------------------------------------
     public void smartAI(){
