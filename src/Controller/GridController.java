@@ -350,7 +350,7 @@ public class GridController{
         int i = 0;
         System.out.println(game.getMinerX() + " " + game.getMinerY());
         game.updateMemory(game.getMinerX(), game.getMinerY(), 1);
-        
+
         String result = search (game.getMinerX(), game.getMinerY() + 1, "NULL");
         ActionEvent event = new ActionEvent();
 
