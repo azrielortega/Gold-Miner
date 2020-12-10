@@ -245,7 +245,7 @@ public class GridController{
             stage.setScene(new Scene(root, 427, 239));
             stage.setResizable(false);
             stage.show();
-            close(event);
+           // close(event);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -340,40 +340,43 @@ public class GridController{
     public void StartGame() {
         startClick = 1;
         System.out.println("GAME START");
-        smartAI();
-        //move();
+        //smartAI();
+        animationMove();
         System.out.println("X- " + game.getMinerX());
         System.out.println("Y- " + game.getMinerY());
     }
 
 
-    public void gameMove(int x, int y){
-        game.setSpaceType(x, y, 1);
-        rec[y][x].setFill(ipDirt);
-
+    public void move(){
+        game.setSpaceType(game.getMinerX(), game.getMinerY(), 1);
+        rec[game.getMinerY()][game.getMinerX()].setFill(ipDirt);
+        game.move();
         game.setSpaceType(game.getMinerX(), game.getMinerY(), 5);
         rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
-
         MoveCounter.setText(Integer.toString(game.getMove()));
     }
 
-    public void animationMove(int x, int y) {
-        animation = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-            System.out.println("2 - Hello");
-            gameMove(x, y);
+    public void animationMove() {
+        animation = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+            System.out.println("I MOVED");
+            //gameMove(x, y);
+            //smartAI();
+           // move();
+            randomAI();
         }));
         animation.setCycleCount(Timeline.INDEFINITE);
-        System.out.println("1 - Hello");
         animation.play();
         System.out.println("3 - Hello");
     }
 
-    public void move(){
+   /* public void move(){
         int x = game.getMinerX();
         int y = game.getMinerY();
-        game.move();
-        animationMove(x, y);
-    }
+
+        //animationMove(x, y);
+        gameMove(x,y);
+
+    }*/
 
     //--------------------------------------------MINER AI SMART-------------------------------------------------------
     public void smartAI(){
@@ -385,10 +388,14 @@ public class GridController{
         ActionEvent event = new ActionEvent();
 
         if (result == "true"){
+            animation.stop();
             openGoldFound(event);
+
         }
         else{
+            animation.stop();
             openGameOver(event);
+
         }
 
         /*
@@ -422,7 +429,8 @@ public class GridController{
             rotateTill(direction);
             int temp = scan();
             scan = true;
-            ;
+
+            /**;
             if(temp == 4){ //GO TOWARDS GOLD ONCE FOUND
                 while(game.getSpaceMemory(game.getMinerX(), game.getMinerY()) != 4) {
                     if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() + 1, game.getMinerY()) == 4)
@@ -435,6 +443,8 @@ public class GridController{
                         return "true";
 
                     move();
+
+                    System.out.println("move is called");
                 }
 
                 if(game.getSpaceMemory(x, y) == 4){
@@ -473,6 +483,7 @@ public class GridController{
 
                 if(game.getSpaceMemory(x, y) == 3){
                     move();
+                    System.out.println("move is called");
                     arrived = true;
                 }
 
@@ -480,7 +491,8 @@ public class GridController{
                     if (findGold())
                         return "true";
                 }
-            }
+            }*/
+
         }
 
         if(game.getSpaceMemory(x, y) == 4){
@@ -505,6 +517,7 @@ public class GridController{
 
         game.updateMemory(x, y, 7);
         move();
+        System.out.println("move is called");
         status = "moved";
 
         System.out.println("Up");
@@ -525,6 +538,7 @@ public class GridController{
             System.out.println("Move Back! - Left");
             rotateTill("Left");
             move();
+            System.out.println("move is called");
         }
 
         System.out.println("Down");
@@ -535,6 +549,7 @@ public class GridController{
             System.out.println("Move Back! - Up");
             rotateTill("Up");
             move();
+            System.out.println("move is called");
         }
 
         System.out.println("Left");
@@ -545,6 +560,7 @@ public class GridController{
             System.out.println("Move Back! - Right");
             rotateTill("Right");
             move();
+            System.out.println("move is called");
         }
 
         boolean found = right == "true" || left == "true" || down == "true" || up == "true";
