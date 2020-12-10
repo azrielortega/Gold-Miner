@@ -422,7 +422,7 @@ public class GridController{
             rotateTill(direction);
             int temp = scan();
             scan = true;
-            ;
+            /*
             if(temp == 4){ //GO TOWARDS GOLD ONCE FOUND
                 while(game.getSpaceMemory(game.getMinerX(), game.getMinerY()) != 4) {
                     if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceMemory(game.getMinerX() + 1, game.getMinerY()) == 4)
@@ -480,7 +480,7 @@ public class GridController{
                     if (findGold())
                         return "true";
                 }
-            }
+            }*/
         }
 
         if(game.getSpaceMemory(x, y) == 4){
