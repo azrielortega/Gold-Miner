@@ -1,7 +1,9 @@
 package Controller;
 
 import Model.GoldMiner;
+import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.security.Key;
+import javafx.util.Duration;
 
 public class GridController{
 
@@ -90,6 +94,8 @@ public class GridController{
     private static GoldMiner game = new GoldMiner(1);
 
     private int tempCtr = 0;
+
+    Timeline animation;
 
     public void initialize() {
         int gridsize = 16; // INITIALIZATION
@@ -270,7 +276,7 @@ public class GridController{
                 ipMiner = new ImagePattern(pMinerRight);
                 break;
             case 3://DOWN
-                ipMiner = new ImagePattern (pMinerDown);
+                 ipMiner = new ImagePattern (pMinerDown);
                 break;
             case 4://LEFT
                 ipMiner = new ImagePattern(pMinerLeft);
@@ -316,7 +322,7 @@ public class GridController{
         }
     }
 
-    public void move (){
+    public void gameMove(){
         game.setSpaceType(game.getMinerX(), game.getMinerY(), 1);
         rec[game.getMinerY()][game.getMinerX()].setFill(ipDirt);
         game.move();
@@ -344,6 +350,21 @@ public class GridController{
         System.out.println("GAME START");
         smartAI();
     }
+
+    public void move() {
+        animation = new Timeline(new KeyFrame(Duration.millis(300), event -> {
+            try {
+                gameMove();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }));
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.play();
+
+    }
+
+
 
     //--------------------------------------------MINER AI SMART-------------------------------------------------------
     public void smartAI(){
