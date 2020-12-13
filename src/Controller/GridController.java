@@ -53,6 +53,8 @@ public class GridController {
     private static int goldClick = 0;
     private static int beaconClick = 0;
     private static int startClick = 0;
+    private static int diffClick = 0;
+    private static int speed = 500;
     private static Rectangle[][] rec;
     private static Image image = new Image("/Images/pit.png");
     private static ImagePattern ipPit = new ImagePattern(image);
@@ -96,6 +98,7 @@ public class GridController {
     private static GoldMiner game = new GoldMiner(1);
 
     private Timeline animation;
+    private Timeline temp;
 
     private int tempCtr = 0;
 
@@ -146,7 +149,6 @@ public class GridController {
         alert.showAndWait();
     }
 
-
     public void clickGold() {
         resetClick = 1;
         goldClick = 1;
@@ -174,7 +176,6 @@ public class GridController {
         beaconClick = 0;
 
     }
-
 
     public void handle(MouseEvent me) {
         if (startClick != 1) {
@@ -213,6 +214,17 @@ public class GridController {
         }
     }
 
+    public void SmartClick(){
+    diffClick = 1;
+    }
+
+    public void RandomClick(){
+    diffClick=2;
+    }
+
+    public void fastForward(){ speed = 50; animationMove(); }
+    public void normalPlay(){ speed = 300; }
+
     public void OpenGridMenu(ActionEvent event) {
         gridNumber = Integer.parseInt(gridnum.getText());
         if (gridNumber < 8 && gridNumber > 64) {
@@ -221,7 +233,15 @@ public class GridController {
             alert.setTitle("Warning");
             alert.setContentText("Enter the values 8 to 64 ONLY!");
             alert.showAndWait();
-        } else {
+        }
+        else if (diffClick == 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setTitle("Warning");
+            alert.setContentText("Select a Difficulty level!");
+            alert.showAndWait();
+        }
+        else {
             Parent root;
             game.setBoard(gridNumber);
             try {
@@ -235,6 +255,22 @@ public class GridController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void gridMenu(ActionEvent event) {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridSize.fxml"));
+            javafx.stage.Stage stage = new Stage();
+            stage.setTitle("Enter Grid Size");
+            stage.setScene(new Scene(root, 600, 600));
+            stage.setResizable(false);
+            stage.show();
+
+            close(event);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -257,7 +293,7 @@ public class GridController {
     public void openGameOver(ActionEvent event) {
         Parent root;
         try {
-            animation.stop();
+            //animation.stop();
             root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GameOver.fxml"));
             javafx.stage.Stage stage = new Stage();
             stage.setTitle("GAME OVER!");
@@ -265,13 +301,14 @@ public class GridController {
             stage.setResizable(false);
             stage.show();
 
-            close(event);
+            //close(event);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void rotate(char direction) {
+        System.out.println("ROTATED");
         game.rotate(direction);
         RotateCounter.setText(Integer.toString(game.getRotate()));
         switch (game.getMiner().getFront()) {
@@ -291,38 +328,27 @@ public class GridController {
         rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
     }
 
+
     public void rotateTill(String direction) {
         switch (direction) {
             case "Up"://UP
                 while (game.getMiner().getFront() != 1) {
-                    if (game.getMiner().getFront() != 4)
-                        rotate('L');
-                    else
-                        rotate('R');
+                    rotate('R');
                 }
                 break;
             case "Right"://RIGHT
                 while (game.getMiner().getFront() != 2) {
-                    if (game.getMiner().getFront() != 1)
-                        rotate('L');
-                    else
-                        rotate('R');
+                    rotate('R');
                 }
                 break;
             case "Down"://DOWN
                 while (game.getMiner().getFront() != 3) {
-                    if (game.getMiner().getFront() != 2)
-                        rotate('L');
-                    else
-                        rotate('R');
+                    rotate('R');
                 }
                 break;
             case "Left"://LEFT
                 while (game.getMiner().getFront() != 4) {
-                    if (game.getMiner().getFront() != 3)
-                        rotate('L');
-                    else
-                        rotate('R');
+                    rotate('R');
                 }
                 break;
         }
@@ -342,12 +368,13 @@ public class GridController {
     }
 
     public void StartGame() {
+        normalPlay();
         startClick = 1;
         System.out.println("GAME START");
         //smartAI();
         animationMove();
+        //smartAI();
     }
-
 
     public void move() {
         game.setSpaceType(game.getMinerX(), game.getMinerY(), 1);
@@ -355,31 +382,38 @@ public class GridController {
         game.move();
         game.setSpaceType(game.getMinerX(), game.getMinerY(), 5);
         rec[game.getMinerY()][game.getMinerX()].setFill(ipMiner);
+
+        game.updateMemory(game.getMinerX(), game.getMinerY(), 5);
+
         MoveCounter.setText(Integer.toString(game.getMove()));
     }
 
+
     public void animationMove() {
-        animation = new Timeline(new KeyFrame(Duration.millis(1), event -> {
+        animation = new Timeline(new KeyFrame(Duration.millis(speed), event -> {
             //gameMove(x, y);
             //smartAI();
-            //move();
-            randomAI();
+            //rotateTill("Left");
+            //randomAI();
+
+            if (diffClick == 1){
+                smartAI();
+            }
+            else if (diffClick==2){
+                //randomAI();
+            }
+            else{
+
+            }
+
         }));
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
     }
 
-   /* public void move(){
-        int x = game.getMinerX();
-        int y = game.getMinerY();
-
-        //animationMove(x, y);
-        gameMove(x,y);
-
-    }*/
-
     //--------------------------------------------MINER AI SMART-------------------------------------------------------
     public void smartAI() {
+        /*
         int i = 0;
         System.out.println(game.getMinerX() + " " + game.getMinerY());
         game.updateMemory(game.getMinerX(), game.getMinerY(), 1);
@@ -397,7 +431,6 @@ public class GridController {
 
         }
 
-        /*
         boolean result = randomAI ();
         ActionEvent event = new ActionEvent();
 
@@ -407,7 +440,21 @@ public class GridController {
         else{
             openGameOver(event);
         }*/
+
+        String result = searchTwo(game.getMinerX(), game.getMinerY() + 1, "NULL");
+        ActionEvent event = new ActionEvent();
+        if (result == "true") {
+            animation.stop();
+            openGoldFound(event);
+
+
+        } else {
+            animation.stop();
+            openGameOver(event);
+
+        }
     }
+
 
     public String search(int x, int y, String direction) {//memory
         tempCtr++;
@@ -508,17 +555,15 @@ public class GridController {
             y--;
         }
 
-        System.out.println("going");
         if (!scan && direction != "NULL") {
             rotateTill(direction);
         }
 
         game.updateMemory(x, y, 7);
         move();
-        System.out.println("move is called");
+        System.out.println("MOVED " + direction);
         status = "moved";
-
-        System.out.println("Up");
+        //UP
         up = search(x - 1, y, "Up");
         if (up == "true")
             return "true";
@@ -527,8 +572,7 @@ public class GridController {
             rotateTill("Down");
             move();
         }
-
-        System.out.println("Right");
+        //RIGHT
         right = search(x, y + 1, "Right");
         if (right == "true")
             return "true";
@@ -538,8 +582,7 @@ public class GridController {
             move();
             System.out.println("move is called");
         }
-
-        System.out.println("Down");
+        //DOWN
         down = search(x + 1, y, "Down");
         if (down == "true")
             return "true";
@@ -549,8 +592,7 @@ public class GridController {
             move();
             System.out.println("move is called");
         }
-
-        System.out.println("Left");
+        //LEFT
         left = search(x, y - 1, "Left");
         if (left == "true")
             return "true";
@@ -613,16 +655,18 @@ public class GridController {
 
         return found;
     }
+
 //----------------------------------------------Miner AI Random---------------------------------------------------------
 
     public void randomAI() {
+
         //If miner is not in pit or in gold, continue;
         System.out.println("SPACE TYPE - " + game.getSpaceType(game.getMinerX(), game.getMinerY()));
-        if (game.getSpaceTypeInMiner(game.getMinerX(), game.getMinerY()) == 2) {//PIT HULOG
+        if (game.getSpaceTypeInMiner(game.getMinerX(), game.getMinerY()) == 2) { //PIT HULOG
             ActionEvent event = new ActionEvent();
             openGameOver(event);
         }
-        if (game.getSpaceTypeInMiner(game.getMinerX(), game.getMinerY()) == 4) {//GOLD FOUND
+        if (game.getSpaceTypeInMiner(game.getMinerX(), game.getMinerY()) == 4) { //GOLD FOUND
             ActionEvent event = new ActionEvent();
             openGoldFound(event);
         }
@@ -694,6 +738,164 @@ public class GridController {
 
         return (int) (Math.random() * (max - min + 1) + min);
     }
+    //----------------------------------------------Miner Smart 2---------------------------------------------------------
 
+    public String searchTwo(int x, int y, String direction) {//memory
+        tempCtr++;
+        String right = "";
+        String left = "";
+        String up = "";
+        String down = "";
+        boolean scan = false;
+        String status = "false";
+        System.out.println("Front - " + game.getMiner().getFront());
+        game.printMemory();
+
+        if (game.isEdge(x, y))
+            return "false";
+
+        System.out.println("MEMORY SPACE TYPE - " + game.getSpaceMemory(x, y));
+
+        if (game.getSpaceMemory(x, y) == 1 || game.getSpaceMemory(x, y) == 6) {//UNEXPLORED PATH
+            rotateTill(direction);
+            int temp = scan();
+            scan = true;
+        }
+
+        if (game.getSpaceMemory(x, y) == 8) {//GOLD ROUTE FOUND
+            boolean found = true;
+
+           temp = new Timeline(new KeyFrame(Duration.millis(300), event -> {
+                System.out.println("Space Type - " + game.getSpaceType(game.getMinerX() + 1, game.getMinerY()));
+                if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceType(game.getMinerX() + 1, game.getMinerY()) == 4) {
+                   temp.stop();
+                }
+                System.out.println("Space Type - " + game.getSpaceType(game.getMinerX() - 1, game.getMinerY()));
+                if(!game.isEdge(game.getMinerX() - 1, game.getMinerY()) && game.getSpaceType(game.getMinerX() - 1, game.getMinerY()) == 4) {
+                   temp.stop();
+                }
+                System.out.println("Space Type - " + game.getSpaceType(game.getMinerX(), game.getMinerY() + 1));
+                if(!game.isEdge(game.getMinerX(), game.getMinerY() + 1) && game.getSpaceType(game.getMinerX(), game.getMinerY() + 1) == 4) {
+                    System.out.println("STOP");
+                   temp.stop();
+                }
+                System.out.println("Space Type - " + game.getSpaceType(game.getMinerX(), game.getMinerY() - 1));
+                if(!game.isEdge(game.getMinerX(), game.getMinerY() - 1) && game.getSpaceType(game.getMinerX(), game.getMinerY() - 1) == 4) {
+                   temp.stop();
+                }
+
+                move();
+            }));
+            temp.setCycleCount(Timeline.INDEFINITE);
+            temp.play();
+
+            /*
+            while(game.getSpaceType(game.getMinerX(), game.getMinerY()) != 4) {
+                if(!game.isEdge(game.getMinerX() + 1, game.getMinerY()) && game.getSpaceType(game.getMinerX() + 1, game.getMinerY()) == 4)
+                    return "true";
+                if(!game.isEdge(game.getMinerX() - 1, game.getMinerY()) && game.getSpaceType(game.getMinerX() - 1, game.getMinerY()) == 4)
+                    return "true";
+                if(!game.isEdge(game.getMinerX(), game.getMinerY() + 1) && game.getSpaceType(game.getMinerX(), game.getMinerY() + 1) == 4)
+                    return "true";
+                if(!game.isEdge(game.getMinerX(), game.getMinerY() - 1) && game.getSpaceType(game.getMinerX(), game.getMinerY() - 1) == 4)
+                    return "true";
+
+                System.out.println("BOARD");
+                game.printBoard();
+                System.out.println("MEMORY");
+                game.printMemory();
+
+                move();
+            }*/
+
+            if(game.getSpaceType(game.getMinerX(), game.getMinerY()) == 4){
+                return "true";
+            }
+        }
+
+        if (game.getSpaceMemory(x, y) == 5) {//EXPLORED PATH
+            return "false";
+        }
+
+        if(game.getSpaceType(x, y) == 2 && game.getSpaceMemory(x, y) == 6){//PIT DISCOVERED
+            game.updateMemory(x, y, 2);
+            return "false";
+        }
+
+        if (game.getSpaceMemory(x, y) == 2 && tempCtr != 1) //PIT
+            return "false";
+        else if (game.getSpaceMemory(x, y) == 2 && tempCtr == 1) {
+            rotate('R');
+            x++;
+            y--;
+        }
+
+        System.out.println("BOARD");
+        game.printBoard();
+        System.out.println("MEMORY");
+        game.printMemory();
+
+        // DON'T EDIT ANYTHING BELOW //
+        if (!scan && direction != "NULL") {
+            rotateTill(direction);
+        }
+
+        move();
+        System.out.println("MOVED " + direction);
+        status = "moved";
+
+        //UP
+        System.out.println("Up");
+        up = searchTwo(x - 1, y, "Up");
+        if (up == "true")
+            return "true";
+        else if (up == "moved") {
+            System.out.println("Move Back! - Down");
+            rotateTill("Down");
+            move();
+        }
+        //RIGHT
+        System.out.println("Right");
+        right = searchTwo(x, y + 1, "Right");
+        if (right == "true")
+            return "true";
+        else if (right == "moved") {
+            System.out.println("Move Back! - Left");
+            rotateTill("Left");
+            move();
+        }
+        //DOWN
+        System.out.println("Down");
+        down = searchTwo(x + 1, y, "Down");
+        if (down == "true")
+            return "true";
+        else if (down == "moved") {
+            System.out.println("Move Back! - Up");
+            rotateTill("Up");
+            move();
+        }
+        //LEFT
+        System.out.println("Left");
+        left = searchTwo(x, y - 1, "Left");
+        if (left == "true")
+            return "true";
+        else if (left == "moved") {
+            System.out.println("Move Back! - Right");
+            rotateTill("Right");
+            move();
+        }
+
+        boolean found = right == "true" || left == "true" || down == "true" || up == "true";
+
+        if (found) {
+            System.out.println("GOLD FOUND");
+            return "true";
+        } else {
+            game.updateMemory(x, y, 2);
+            System.out.println("DEAD END");
+        }
+
+        return status;
+    }
 
 }

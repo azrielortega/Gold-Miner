@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GridController">
    <children>
       <ImageView fitHeight="700.0" fitWidth="831.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Images/gridnew.png" />
+            <Image url="@../Images/newgridmenu.png" />
          </image>
       </ImageView>
-      <ScrollPane layoutX="34.0" layoutY="35.0" prefHeight="494.0" prefWidth="731.0">
+      <ScrollPane layoutX="62.0" layoutY="29.0" prefHeight="488.0" prefWidth="682.0">
          <content>
-            <Pane fx:id="gPane" onMouseClicked="#handle" prefHeight="494.0" prefWidth="731.0" />
+            <Pane fx:id="gPane" onMouseClicked="#handle" prefHeight="512.0" prefWidth="681.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="PitButton" layoutX="51.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickPit" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="BeaconButton" layoutX="146.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickBeacon" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="GoldButton" layoutX="238.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickGold" prefHeight="38.0" prefWidth="41.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="StartButton" layoutX="661.0" layoutY="562.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="62.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
-      <Button fx:id="RemoveButton" layoutX="322.0" layoutY="553.0" mnemonicParsing="false" onAction="#clickRemove" prefHeight="49.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
-      <Label fx:id="MoveCounter" alignment="CENTER" layoutX="445.0" layoutY="574.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY">
+      <Button fx:id="PitButton" layoutX="74.0" layoutY="559.0" mnemonicParsing="false" onAction="#clickPit" prefHeight="88.0" prefWidth="66.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="BeaconButton" layoutX="151.0" layoutY="562.0" mnemonicParsing="false" onAction="#clickBeacon" prefHeight="88.0" prefWidth="88.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="GoldButton" layoutX="248.0" layoutY="559.0" mnemonicParsing="false" onAction="#clickGold" prefHeight="88.0" prefWidth="66.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="StartButton" layoutX="627.0" layoutY="554.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="49.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="RemoveButton" layoutX="330.0" layoutY="559.0" mnemonicParsing="false" onAction="#clickRemove" prefHeight="88.0" prefWidth="66.0" style="-fx-background-color: transparent;" />
+      <Label fx:id="MoveCounter" alignment="CENTER" layoutX="422.0" layoutY="571.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
-            <Font name="Arial Black" size="14.0" />
+            <Font name="Times New Roman Italic" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="ScanCounter" alignment="CENTER" layoutX="517.0" layoutY="574.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY">
+      <Label fx:id="ScanCounter" alignment="CENTER" layoutX="488.0" layoutY="572.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
-            <Font name="Arial Black" size="14.0" />
+            <Font name="Times New Roman Italic" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="RotateCounter" alignment="CENTER" layoutX="589.0" layoutY="574.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY">
+      <Label fx:id="RotateCounter" alignment="CENTER" layoutX="552.0" layoutY="571.0" prefHeight="38.0" prefWidth="41.0" text="0" textAlignment="JUSTIFY" textFill="WHITE">
          <font>
-            <Font name="Arial Black" size="14.0" />
+            <Font name="Times New Roman Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="ExitButton" layoutX="724.0" layoutY="562.0" mnemonicParsing="false" onAction="#ExitGame" prefHeight="62.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="ExitButton" layoutX="692.0" layoutY="603.0" mnemonicParsing="false" onAction="#ExitGame" prefHeight="62.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="SettingsMenu" layoutX="627.0" layoutY="614.0" mnemonicParsing="false" onAction="#gridMenu" prefHeight="38.0" prefWidth="59.0" style="-fx-background-color: transparent;" />
+      <Button fx:id="StartButton1" layoutX="692.0" layoutY="554.0" mnemonicParsing="false" onAction="#fastForward" prefHeight="49.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
    </children>
 </Pane>

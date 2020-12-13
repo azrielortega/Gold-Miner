@@ -28,13 +28,15 @@ public class GoldMiner {
 	private Board memory;
 	/*
 	1 - unexplored
-	2 - scanned
-	3 - don't explore (pit)
+	2 - guaranteed pit
+	3 - beacon
 	4 - goal
-	5 - beacon location
-	6 - possible gold location
-	7 - explored
-	 */
+	5 - explored
+	6 - possible pit
+	7 - scanned
+	8 - gold axis found
+	9 - beacon axis found
+	*/
 
 	private int currentSpaceType = 0;
 
@@ -92,7 +94,7 @@ public class GoldMiner {
 		rotate++;
 		miner.rotate(direction);
 	}
-	
+
 	public int scan (){
 		int temp;
 		int mTemp = 0;
@@ -112,10 +114,23 @@ public class GoldMiner {
 						x = temp;
 						y = getMinerY();
 						found = true;
+						boolean foundScanned = false;
+						for(int i = miner.getPositionX() - 1; i >= 0; i--) {
+							if(mTemp == 2)//PIT FOUND
+								memory.setSpaceType(i, miner.getPositionY(), 6);
+
+							else if(mTemp == 4)
+								memory.setSpaceType(i, miner.getPositionY(), 8);
+
+							else if (mTemp == 5)
+								memory.setSpaceType(i, miner.getPositionY(), 9);
+
+						}
+
 						break;
 					}
 					else if(getSpaceMemory(temp, miner.getPositionY()) == 1)
-						memory.setSpaceType(temp, miner.getPositionY(), 2);
+						memory.setSpaceType(temp, miner.getPositionY(), 7);
 
 					temp --;
 				}
@@ -128,10 +143,22 @@ public class GoldMiner {
 						found = true;
 						x = getMinerX();
 						y = temp;
+
+						for(int i = miner.getPositionY() + 1; i < board.getSize(); i++){
+							if(mTemp == 2)//PIT FOUND
+								memory.setSpaceType(miner.getPositionX(), i, 6);
+
+							else if(mTemp == 4)
+								memory.setSpaceType(miner.getPositionX(), i, 8);
+
+							else if (mTemp == 5)
+								memory.setSpaceType(miner.getPositionX(), i, 9);
+						}
+
 						break;
 					}
 					else if(getSpaceMemory(miner.getPositionX(), temp) == 1)
-						memory.setSpaceType(miner.getPositionX(), temp, 2);
+						memory.setSpaceType(miner.getPositionX(), temp, 7);
 					temp ++;
 				}
 				break;
@@ -143,10 +170,22 @@ public class GoldMiner {
 						found = true;
 						x = temp;
 						y = getMinerY();
+
+						for(int i = miner.getPositionX() + 1; i < board.getSize(); i++){
+							if(mTemp == 2)//PIT FOUND
+								memory.setSpaceType(i, miner.getPositionY(), 6);
+
+							else if(mTemp == 4)
+								memory.setSpaceType(i, miner.getPositionY(), 8);
+
+							else if (mTemp == 5)
+								memory.setSpaceType(i, miner.getPositionY(), 9);
+
+						}
 						break;
 					}
 					else if(getSpaceMemory(temp, miner.getPositionY()) == 1)
-						memory.setSpaceType(temp, getMinerY(), 2);
+						memory.setSpaceType(temp, getMinerY(), 7);
 
 					temp ++;
 				}
@@ -159,25 +198,30 @@ public class GoldMiner {
 						found = true;
 						x = getMinerX();
 						y = temp;
+
+						for(int i = miner.getPositionY() - 1; i >= 0; i--){
+							if(mTemp == 2)//PIT FOUND
+								memory.setSpaceType(miner.getPositionX(), i, 6);
+
+							else if(mTemp == 4)
+								memory.setSpaceType(miner.getPositionX(), i, 8);
+
+							else if (mTemp == 5)
+								memory.setSpaceType(miner.getPositionX(), i, 9);
+
+						}
 						break;
 					}
 					else if(getSpaceMemory(miner.getPositionX(), temp) == 1)
-						memory.setSpaceType(miner.getPositionX(), temp, 2);
+						memory.setSpaceType(miner.getPositionX(), temp, 7);
 
 					temp --;
 				}
 		}
 		if (found){
 			switch(mTemp){
-				case 2://PIT
-					updateMemory(x, y, 3);
-					break;
 				case 3://BEACON
-					updateMemory(x, y, 2);
 					expandBeacon(x, y);
-					break;
-				case 4://GOLD
-					updateMemory(x, y, 4);
 					break;
 			}
 		}
@@ -326,7 +370,7 @@ public class GoldMiner {
 		System.out.println(tempX);
 		System.out.println(tempY);
 		if(tempY != 0 || tempX != 0){ //along the x or y axis of gold
-		//CHECK IF THERE IS BEACON
+			//CHECK IF THERE IS BEACON
 			if(tempX != 0){
 				if(tempX > 0){//south
 					for (int i = x; i >= 0; i--){

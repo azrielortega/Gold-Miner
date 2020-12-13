@@ -45,7 +45,7 @@ public class MainMenuController {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("view/GridSize.fxml"));
             javafx.stage.Stage stage = new Stage();
             stage.setTitle("Enter Grid Size");
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setScene(new Scene(root, 600, 600));
             stage.setResizable(false);
             stage.show();
 
@@ -55,6 +55,9 @@ public class MainMenuController {
         }
     }
 
+    public void Exit(){
+        System.exit(0);
+    }
 
     public void close(ActionEvent event) {
         ((Node) (event.getSource())).getScene().getWindow().hide();

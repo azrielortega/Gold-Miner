@@ -8,19 +8,18 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Button btn = new Button("ClickMe");
-        Group group = new Group(btn);
-        Scene scene = new Scene(group, 600, 600);
-
         Parent root = FXMLLoader.load(getClass().getResource("view/MainMenu.fxml"));
         primaryStage.setTitle("Gold Miner");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 812, 604));
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
     }
 
